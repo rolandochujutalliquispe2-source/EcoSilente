@@ -1,7 +1,7 @@
 {
   "name": "EcoSilente",
   "short_name": "EcoSilente",
-  "start_url": "/EcoSilente/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
