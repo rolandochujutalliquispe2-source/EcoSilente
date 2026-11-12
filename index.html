@@ -1,0 +1,383 @@
+<div class="app-container">
+    <!-- Barra de Estado Simulada -->
+    <div class="status-bar">
+        <span>5:04</span>
+        <div class="status-icons">
+            <span>🔒 Cifrado</span>
+            <span>📶 5G</span>
+            <span>🔋 100%</span>
+        </div>
+    </div>
+
+    <!-- PANTALLA DE CARGA / SPLASH INTRO CON ILUSTRACIÓN OFICIAL -->
+    <section id="view-splash-intro" class="splash-intro-screen">
+        <div class="splash-image-wrapper">
+            <img src="https://i.ibb.co/RktTDsKV/ecooooo.webp" alt="EcoSilente Splash" class="splash-img-art">
+        </div>
+        <div class="loading-container-floating">
+            <div class="loading-bar-fill"></div>
+            <span class="loading-text">Cargando EcoSilente...</span>
+        </div>
+    </section>
+
+    <!-- PANTALLA DE BIENVENIDA PRINCIPAL -->
+    <section id="view-welcome" class="splash-screen hidden-app">
+        <div class="splash-content">
+            <!-- LOGOTIPO MODERNO PURO SIN FONDO BLANCO -->
+            <div class="eco-logo-modern">
+                <span class="eco-logo-icon">📢</span>
+                <div class="eco-logo-shine"></div>
+            </div>
+            <h1 class="hero-title">ECOSILENTE</h1>
+            <p class="hero-sub">Canal Confidencial y Convivencia Escolar</p>
+            <div class="splash-badge">✨ Espacio 100% Seguro, Cálido y Protegido</div>
+        </div>
+        
+        <div style="width: 100%; display: flex; flex-direction: column; gap: 12px;">
+            <button onclick="enterApp()" class="btn-primary-large">
+                Entrar como Estudiante 🚀
+            </button>
+            <button onclick="openTutorAuth()" class="btn-secondary-outline">
+                Portal de Personal Autorizado (TOE) 🔒
+            </button>
+            <button onclick="openSupportLogin()" class="btn-text-support">
+                ⚙️ Acceso Soporte / Analítica (EcoSilente Admin)
+            </button>
+        </div>
+    </section>
+
+    <!-- PORTAL DE ACCESO / REGISTRO DE TUTORES -->
+    <section id="view-auth-tutor" class="splash-screen hidden-app" style="position: absolute; top: 28px; left: 0; right: 0; bottom: 0; z-index: 25; justify-content: flex-start; padding: 24px; overflow-y: auto;">
+        <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <button onclick="goBackToWelcome()" class="btn-back-pill">← Volver</button>
+            <h2 style="color: var(--accent-yellow); font-size: 14px; font-weight: 900; letter-spacing: 0.5px;">Portal de Personal</h2>
+            <div style="width: 40px;"></div>
+        </div>
+
+        <div style="display: flex; gap: 8px; width: 100%; margin-bottom: 14px;">
+            <button onclick="switchAuthTab('login')" id="tab-login" class="btn-submit" style="flex:1; background: var(--accent-yellow); color: var(--primary-dark);">Iniciar Sesión</button>
+            <button onclick="switchAuthTab('register')" id="tab-register" class="btn-submit" style="flex:1; background: rgba(255,255,255,0.15); color: white;">Crear Cuenta</button>
+        </div>
+
+        <form id="form-login-tutor" onsubmit="handleTutorLogin(event)" class="card-form-modern" style="color: var(--text-main); text-align: left;">
+            <div class="form-group">
+                <label>Correo Institucional</label>
+                <input type="text" id="login-user" required placeholder="tutor@colegio.edu.pe">
+            </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" id="login-pass" required placeholder="********">
+            </div>
+            <div id="login-error-msg" style="color: #E02424; font-size: 10px; font-weight: 700; display: none; margin-bottom: 6px;"></div>
+            <button type="submit" class="btn-submit" style="width: 100%;">Entrar al Panel 🔓</button>
+        </form>
+
+        <form id="form-register-tutor" onsubmit="handleTutorRegister(event)" class="card-form-modern hidden" style="color: var(--text-main); text-align: left;">
+            <div class="form-group">
+                <label>Nombre Completo</label>
+                <input type="text" id="reg-name" required placeholder="Prof. Juan Pérez">
+            </div>
+            <div class="form-group">
+                <label>Correo Institucional</label>
+                <input type="email" id="reg-user" required placeholder="tutor@colegio.edu.pe">
+            </div>
+            <div class="form-group">
+                <label>Crear Contraseña</label>
+                <input type="password" id="reg-pass" required placeholder="Mínimo 6 caracteres">
+            </div>
+            <div id="register-success-msg" style="background: #DEF7EC; color: #03543F; padding: 10px; border-radius: 8px; font-size: 10px; font-weight: 700; display: none; text-align: center; line-height: 1.4; margin-bottom: 6px;">
+                ¡Solicitud enviada a soporte! Te avisaremos cuando tengas acceso.
+            </div>
+            <button type="submit" class="btn-submit" style="background: var(--accent-yellow); color: var(--primary-dark); width: 100%;">Solicitar Acceso 🚀</button>
+        </form>
+    </section>
+
+    <!-- PORTAL SEPARADO: SOPORTE / ANALÍTICA GENERAL (Clave ecosilente2026) -->
+    <section id="view-support-admin" class="splash-screen hidden-app" style="position: absolute; top: 28px; left: 0; right: 0; bottom: 0; z-index: 25; justify-content: flex-start; padding: 24px; overflow-y: auto;">
+        <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <button onclick="goBackToWelcome()" class="btn-back-pill">← Volver</button>
+            <h2 style="color: var(--accent-yellow); font-size: 13px; font-weight: 900;">Analítica y Soporte Admin</h2>
+            <div style="width: 40px;"></div>
+        </div>
+
+        <div id="support-login-box" class="card-form-modern" style="color: var(--text-main); text-align: left;">
+            <h3 style="font-size: 12px; font-weight: 900; color: var(--primary-dark); margin-bottom: 6px;">Acceso Exclusivo Creadores</h3>
+            <div class="form-group">
+                <label>Clave Maestra (ecosilente2026)</label>
+                <input type="password" id="support-pass-input" placeholder="Clave de creador">
+            </div>
+            <div id="support-error-msg" style="color: #E02424; font-size: 10px; font-weight: 700; display: none; margin-bottom: 6px;">Contraseña incorrecta.</div>
+            <button onclick="verifySupportLogin()" class="btn-submit" style="width: 100%;">Ingresar a Analítica ⚙️</button>
+        </div>
+
+        <div id="support-dashboard-box" class="hidden" style="width: 100%; display: flex; flex-direction: column; gap: 10px; text-align: left;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%;">
+                <div style="background: white; padding: 12px; border-radius: 14px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                    <span style="font-size: 9px; color: #718096; font-weight: 700; display: block;">Casos Atendidos</span>
+                    <strong id="support-stat-cases" style="font-size: 18px; color: var(--primary-dark);">0</strong>
+                </div>
+                <div style="background: white; padding: 12px; border-radius: 14px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                    <span style="font-size: 9px; color: #718096; font-weight: 700; display: block;">Pendientes Autorización</span>
+                    <strong id="support-stat-pending" style="font-size: 18px; color: var(--accent-orange);">0</strong>
+                </div>
+            </div>
+
+            <!-- Panel de Estadísticas y Casos Atendidos por los Profesores -->
+            <div style="background: white; padding: 14px; border-radius: 16px; display: flex; flex-direction: column; gap: 8px; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                <h4 style="font-size: 11px; font-weight: 900; color: var(--primary-dark);">📊 Historial de Casos Atendidos por Tutores</h4>
+                <div id="support-resolved-cases-container" style="display: flex; flex-direction: column; gap: 6px; max-height: 140px; overflow-y: auto;"></div>
+            </div>
+
+            <div style="background: white; padding: 14px; border-radius: 16px; display: flex; flex-direction: column; gap: 8px; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                <h4 style="font-size: 11px; font-weight: 900; color: var(--primary-dark);">📋 Solicitudes de Autorización (Profesores)</h4>
+                <div id="support-pending-container" style="display: flex; flex-direction: column; gap: 6px;"></div>
+            </div>
+        </div>
+
+        <div style="margin-top: auto; padding-top: 15px; text-align: center; font-size: 9px; color: rgba(255,255,255,0.7); font-weight: 600;">
+            Un servicio creado por Rolando Chujutalli Quispe
+        </div>
+    </section>
+
+    <!-- CONTENEDOR PRINCIPAL DE LA APP -->
+    <div id="main-app-content" class="hidden-app flex-col flex-1 overflow-hidden">
+        
+        <!-- Cabecera Institucional Dinámica -->
+        <header class="app-header">
+            <div class="header-top">
+                <button onclick="goBackToWelcome()" class="btn-back-pill">← Volver</button>
+                <div class="brand">
+                    <div style="background: var(--accent-yellow); width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">📢</div>
+                    <div>
+                        <h1>ECOSILENTE</h1>
+                        <p>Canal Confidencial Escolar</p>
+                    </div>
+                </div>
+                <button onclick="logoutToWelcome()" title="Cerrar Sesión" class="btn-logout-pill">🚪 Salir</button>
+            </div>
+
+            <!-- Pestañas Superiores dinámicas -->
+            <nav class="nav-tabs">
+                <button onclick="switchView('student')" id="btn-student" class="tab-btn active">
+                    💬 Enviar Reporte
+                </button>
+                <button onclick="switchView('inbox')" id="btn-inbox" class="tab-btn">
+                    📬 Bandeja Entrada
+                </button>
+                <button onclick="switchView('tutor')" id="btn-tutor" class="tab-btn hidden">
+                    📋 Panel Tutor (<span id="alert-counter">1</span>)
+                </button>
+            </nav>
+        </header>
+
+        <!-- Contenido Scrollable -->
+        <main class="app-content">
+            <!-- VISTA ESTUDIANTE -->
+            <section id="view-student" class="view-section">
+                <div class="hero-card-banner">
+                    <div class="hero-banner-icon">🛡️</div>
+                    <div>
+                        <strong>Tu voz importa y está protegida</strong>
+                        <p>Canal 100% confidencial. Ningún dato personal es almacenado.</p>
+                    </div>
+                </div>
+
+                <form id="report-form" onsubmit="handleReportSubmit(event)" class="card-form-modern">
+                    <div class="form-group">
+                        <label>🎯 ¿A qué profesor o tutor deseas dirigir este reporte?</label>
+                        <input type="text" id="profesor-destino" required placeholder="Ej. Prof. Juan Pérez o Psicología TOE">
+                    </div>
+
+                    <div class="form-group">
+                        <label>⚠️ Tipo de Situación Observada</label>
+                        <select id="tipo-situacion" required>
+                            <option value="" disabled selected>Selecciona una categoría...</option>
+                            <option value="Hostigamiento">Hostigamiento o burla recurrente</option>
+                            <option value="Exclusión">Exclusión social / aislamiento</option>
+                            <option value="Agresión física menor">Agresión física menor</option>
+                            <option value="Ciberacoso">Ciberacoso (redes / chats)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>🏫 Grado y Sección</label>
+                        <select id="grado-seccion" required>
+                            <option value="" disabled selected>Selecciona tu sección...</option>
+                            <option value="1er Grado de Secundaria">1er Grado de Secundaria</option>
+                            <option value="2do Grado de Secundaria">2do Grado de Secundaria</option>
+                            <option value="3er Grado de Secundaria">3er Grado de Secundaria</option>
+                            <option value="4to Grado de Secundaria">4to Grado de Secundaria</option>
+                            <option value="5to Grado de Secundaria">5to Grado de Secundaria</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>📝 Cuéntanos los detalles (¿Qué pasó, cuándo y dónde?)</label>
+                        <textarea id="descripcion" rows="3" required placeholder="Escribe con total confianza aquí..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        🚀 Enviar Reporte Cifrado de Forma Segura
+                    </button>
+                </form>
+
+                <div id="success-banner" class="success-banner hidden">
+                    <span>✨</span>
+                    <h3>¡Reporte enviado exitosamente!</h3>
+                    <p>El equipo autorizado ya lo recibió de manera cifrada y anónima.</p>
+                </div>
+            </section>
+
+            <!-- NUEVA VISTA: BANDEJA DE ENTRADA DEL ESTUDIANTE -->
+            <section id="view-inbox" class="view-section hidden">
+                <div class="tutor-header">
+                    <h2>Bandeja de Entrada Estudiantil</h2>
+                    <span class="live-dot">● Respuestas</span>
+                </div>
+                <div class="info-card-modern" style="background: #FFFBEB; border: 1.5px solid #FDE68A; padding: 12px; border-radius: 14px; display: flex; gap: 10px; align-items: center;">
+                    <span style="font-size: 22px;">📬</span>
+                    <div style="font-size: 9px; color: #78350F; font-weight: 700; line-height: 1.4;">
+                        <strong>Tus Respuestas y Avisos</strong><br>
+                        Aquí podrás ver cuando los tutores lean, atiendan y dejen un mensaje sobre los casos reportados.
+                    </div>
+                </div>
+                <div id="student-inbox-container" style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;"></div>
+            </section>
+
+            <!-- VISTA PANEL DEL TUTOR -->
+            <section id="view-tutor" class="view-section hidden">
+                <div class="tutor-header">
+                    <h2>Panel de Tutor Autorizado</h2>
+                    <span class="live-dot">● En línea</span>
+                </div>
+                <div style="background: linear-gradient(135deg, #2A102F 0%, #4A154B 100%); color: white; padding: 12px 14px; border-radius: 14px; font-size: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                    <span>📊 Casos atendidos registrados:</span>
+                    <strong id="stat-counter" style="color: var(--accent-yellow); font-size: 14px;">0</strong>
+                </div>
+                <div id="alerts-container"></div>
+            </section>
+
+            <!-- VISTA MINIJUEGO: EL DILEMA DEL DÍA -->
+            <section id="view-game" class="view-section hidden">
+                <div class="game-header-bar">
+                    <button onclick="switchView('student')" class="game-close-btn">✕</button>
+                    <div class="duo-progress-container">
+                        <div id="duo-progress-bar" class="duo-progress-fill" style="width: 100%;"></div>
+                    </div>
+                    <button onclick="switchView('shop')" title="Ir a la Tienda" style="background: none; border: none; font-size: 18px; cursor: pointer;">🛒</button>
+                    <div class="score-badge">🪙 <span id="game-score">0</span>/15 Días</div>
+                </div>
+
+                <div class="duo-game-card">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
+                        <span style="font-size: 20px;">📢</span>
+                        <span style="font-size: 10px; font-weight: 900; color: var(--accent-orange); text-transform: uppercase;">Reto Diario de Convivencia (Racha 15 Días)</span>
+                    </div>
+                    
+                    <div id="game-question-box" class="duo-question" style="font-size: 11px; font-weight: 900; color: var(--primary-dark); line-height: 1.4;">
+                        Cargando reto diario...
+                    </div>
+
+                    <div id="game-options" class="duo-options-grid"></div>
+
+                    <div id="game-feedback-box" class="hidden" style="padding: 10px; border-radius: 10px; text-align: center; font-size: 10px; font-weight: 700;"></div>
+                </div>
+            </section>
+
+            <!-- VISTA TIENDA DE ECO-RECOMPENSAS -->
+            <section id="view-shop" class="view-section hidden">
+                <div class="tutor-header">
+                    <h2>Tienda de Premios Escolares</h2>
+                    <span class="score-badge" style="background: var(--accent-orange); color: white; padding: 4px 10px;">🪙 <span id="shop-coins-balance">0</span>/15 Días</span>
+                </div>
+
+                <div class="info-card-modern" style="background: #FFFBEB; border: 1.5px solid #FDE68A; padding: 12px; border-radius: 14px; display: flex; gap: 10px; align-items: center;">
+                    <span style="font-size: 22px;">🗓️</span>
+                    <div style="font-size: 9px; color: #78350F; font-weight: 700; line-height: 1.4;">
+                        <strong>¡Racha de 15 Días Requerida!</strong><br>
+                        Responde el reto diario durante 15 días consecutivos para desbloquear tus útiles, snacks del kiosko o la pelota.
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 2px;">
+                    <div class="shop-item-card">
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <span style="font-size: 26px; background: #F0FDF4; padding: 8px; border-radius: 12px;">✏️</span>
+                            <div>
+                                <h4 style="font-size: 11px; font-weight: 900; color: var(--primary-dark);">Kit de Útiles Escolares Básicos</h4>
+                                <p style="font-size: 9px; color: #718096;">Meta: 5 Días de Retos</p>
+                            </div>
+                        </div>
+                        <button id="btn-prize-1" onclick="redeemPrize(5, 'Kit de Útiles Escolares Básicos')" class="btn-submit" style="padding: 6px 10px; font-size: 9px;">5 🪙</button>
+                    </div>
+
+                    <div class="shop-item-card">
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <span style="font-size: 26px; background: #FFFBEB; padding: 8px; border-radius: 12px;">🥪</span>
+                            <div>
+                                <h4 style="font-size: 11px; font-weight: 900; color: var(--primary-dark);">Snack del Kiosko Escolar</h4>
+                                <p style="font-size: 9px; color: #718096;">Meta: 10 Días de Retos</p>
+                            </div>
+                        </div>
+                        <button id="btn-prize-2" onclick="redeemPrize(10, 'Snack del Kiosko Escolar')" class="btn-submit" style="padding: 6px 10px; font-size: 9px;">10 🪙</button>
+                    </div>
+
+                    <div class="shop-item-card">
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <span style="font-size: 26px; background: #FEF3C7; padding: 8px; border-radius: 12px;">⚽</span>
+                            <div>
+                                <h4 style="font-size: 11px; font-weight: 900; color: var(--primary-dark);">Pelota de Recreo (Fútbol / Vóley)</h4>
+                                <p style="font-size: 9px; color: #718096;">Meta: 15 Días de Retos</p>
+                            </div>
+                        </div>
+                        <button id="btn-prize-3" onclick="redeemPrize(15, 'Pelota de Recreo (Fútbol / Vóley)')" class="btn-submit" style="padding: 6px 10px; font-size: 9px;">15 🪙</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VISTA AYUDA -->
+            <section id="view-help" class="view-section hidden">
+                <div class="tutor-header">
+                    <h2>Centro de Ayuda y FAQ</h2>
+                </div>
+                <div class="help-box-modern">
+                    <h4>🕵️‍♂️ ¿Cómo funciona el anonimato?</h4>
+                    <p>EcoSilente no almacena IPs ni nombres. Los reportes viajan encriptados directo al comité autorizado.</p>
+                </div>
+                <div class="help-box-modern">
+                    <h4>⚡ ¿Qué pasa tras enviar?</h4>
+                    <p>El tutor autorizado revisa la alerta en menos de 24 horas para activar los protocolos de apoyo seguro.</p>
+                </div>
+                <div class="help-contact-modern">
+                    <p>Soporte institucional oficial:</p>
+                    <strong>soporte@ecosilente.edu.pe</strong>
+                </div>
+                <div style="text-align: center; padding: 8px; font-size: 9px; color: #718096; font-weight: 700;">
+                    Un servicio creado por Rolando Chujutalli Quispe
+                </div>
+            </section>
+        </main>
+
+        <!-- Barra Inferior de Navegación Dinámica -->
+        <footer class="app-footer" id="main-footer-nav">
+            <button onclick="switchView('student')" id="nav-btn-report" class="footer-btn active-tab student-nav-item">
+                <span>💬</span> Reportar
+            </button>
+            <button onclick="switchView('inbox')" id="nav-btn-inbox" class="footer-btn student-nav-item">
+                <span>📬</span> Inbox
+            </button>
+            <button onclick="switchView('tutor')" id="nav-btn-tutor" class="footer-btn hidden tutor-nav-item">
+                <span>📋</span> Tutor
+            </button>
+            <button onclick="switchView('game')" id="nav-btn-game" class="footer-btn student-nav-item">
+                <span>🎮</span> Reto
+            </button>
+            <button onclick="switchView('shop')" id="nav-btn-shop" class="footer-btn student-nav-item">
+                <span>🎁</span> Premios
+            </button>
+            <button onclick="switchView('help')" id="nav-btn-help" class="footer-btn student-nav-item">
+                <span>ℹ️</span> Ayuda
+            </button>
+        </footer>
+    </div>
+</div>
